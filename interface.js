@@ -65,16 +65,25 @@ function engineSearch() {
             "BMW",
             "Porsche"
         ]
-    }).then(function(answer) {
-        var query = "SELECT position, song, year FROM top5000 WHERE ?";
-        connection.query(query, { artist: answer.artist }, function(err, res) {
-            if (err) throw err;
-            for (var i = 0; i < res.length; i++) {
-            console.log("Position: " + res[i].position + " || Song: " + res[i].song + " || Year: " + res[i].year);
-            }   
-        runSearch();
-        });
+    }).then(function() {
+        connection.query("SELECT * FROM inventory WHERE engine_configuration= inline", function(err, res) {
+            if (err) { 
+                throw err 
+            };
+        console.log(res);
+        connection.end();
+        });  
     });
+}
+
+function inlineSearch() {
+    connection.query("SELECT * FROM inventory WHERE engine_configuration = inline", function(err, res) {
+        if (err) { 
+            throw err 
+        };
+    console.log(res);
+    connection.end();
+    });  
 }
 
 function readData() {
