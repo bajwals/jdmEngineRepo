@@ -52,7 +52,7 @@ var engineSearch = () => {
     inquirer.prompt({
         name: "engine",
         type: "list",
-        message: "What manufacturer do you want to search engines for?",
+        message: "Which manufacturer do you want to search engines for?",
         choices: [
             "Nissan",
             "Toyota",
@@ -64,13 +64,13 @@ var engineSearch = () => {
             if (err) { 
                 throw err 
             };
-        var table = new AsciiTable('All Engines')
+        var table = new AsciiTable(answers.engine + " engines")
         table.setHeading('id', 'manufacturer', 'engine code', 'in stock')
         res.forEach((res) => {
             table.addRow(res.id, res.manufacturer, res.engine_code, res.in_stock)
         })
         console.log(table.toString())
-        connection.end();
+        runSearch();
         });  
     });
 }
@@ -80,8 +80,13 @@ function inlineSearch() {
         if (err) { 
             throw err 
         };
-    console.log(res);
-    connection.end();
+    var table = new AsciiTable("Inline engines")
+    table.setHeading('id', 'manufacturer', 'engine code', 'in stock')
+    res.forEach((res) => {
+        table.addRow(res.id, res.manufacturer, res.engine_code, res.in_stock)
+    })
+    console.log(table.toString())
+    runSearch();
     });  
 }
 
@@ -96,7 +101,7 @@ function readData() {
         table.addRow(res.id, res.manufacturer, res.engine_code, res.in_stock)
     })
     console.log(table.toString())
-    connection.end();
+    runSearch();
     });
 }
 
