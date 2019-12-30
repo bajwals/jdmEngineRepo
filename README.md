@@ -2,8 +2,8 @@
 Your source for all your oriental (and domestic) power needs!
 
 ## NPM Dependencies:
-MySQL
-Inquirer
+MySQL,
+Inquirer,
 Ascii-Table
 
 ## Usage:
