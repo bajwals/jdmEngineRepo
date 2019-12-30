@@ -9,12 +9,6 @@ var connection = mysql.createConnection({
     database: "jdmEngineRepo"
 });
 
-// connection.connect(function(err) {
-//     if (err) throw err;
-//     console.log("connected as id " + connection.threadId + "\n");
-//     readData();
-// });
-
 connection.connect(function(err) {
     if (err) throw err;
     runSearch();
@@ -52,9 +46,7 @@ function runSearch() {
         });
     };
 
-var obj2 = []
-
-function engineSearch() {
+var engineSearch = () => {
     inquirer.prompt({
         name: "engine",
         type: "list",
@@ -65,8 +57,8 @@ function engineSearch() {
             "BMW",
             "Porsche"
         ]
-    }).then(function() {
-        connection.query("SELECT * FROM inventory WHERE engine_configuration= inline", function(err, res) {
+    }).then((answers) => {
+        connection.query("SELECT * FROM jdmEngineRepo.inventory WHERE manufacturer = \"" + answers.engine + "\"", function(err, res) {
             if (err) { 
                 throw err 
             };
@@ -77,7 +69,7 @@ function engineSearch() {
 }
 
 function inlineSearch() {
-    connection.query("SELECT * FROM inventory WHERE engine_configuration = inline", function(err, res) {
+    connection.query("SELECT * FROM inventory WHERE engine_configuration = 'inline'", function(err, res) {
         if (err) { 
             throw err 
         };
@@ -91,7 +83,23 @@ function readData() {
         if (err) { 
             throw err 
         };
-    console.log(res);
+    engineArray = res;
+    console.log(engineArray)
     connection.end();
     });
+}
+
+var engineArray = []
+
+var engine = {
+    id: 11,
+    manufacturer: 'Nissan',
+    engine_code: 'SR20DET',
+    displacement_in_cm3: 2000,
+    engine_configuration: 'Inline',
+    number_of_cylinders: 4,
+    aspiration: 'Single Turbocharged',
+    maximum_power: 300,
+    price: 1000,
+    in_stock: 8
 }
