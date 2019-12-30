@@ -1,5 +1,7 @@
 var mysql = require("mysql");
 var inquirer = require("inquirer")
+var AsciiTable = require('ascii-table')
+
 
 var connection = mysql.createConnection({
     host: "localhost",
@@ -62,7 +64,12 @@ var engineSearch = () => {
             if (err) { 
                 throw err 
             };
-        console.log(res);
+        var table = new AsciiTable('All Engines')
+        table.setHeading('id', 'manufacturer', 'engine code', 'in stock')
+        res.forEach((res) => {
+            table.addRow(res.id, res.manufacturer, res.engine_code, res.in_stock)
+        })
+        console.log(table.toString())
         connection.end();
         });  
     });
@@ -83,8 +90,12 @@ function readData() {
         if (err) { 
             throw err 
         };
-    engineArray = res;
-    console.log(engineArray)
+    var table = new AsciiTable('All Engines')
+    table.setHeading('id', 'manufacturer', 'engine code', 'in stock')
+    res.forEach((res) => {
+        table.addRow(res.id, res.manufacturer, res.engine_code, res.in_stock)
+    })
+    console.log(table.toString())
     connection.end();
     });
 }
